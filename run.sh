@@ -36,8 +36,6 @@ if [ "${1:0:1}" != '-' ]; then
   exec "$@"
 fi
 
-chown -R 0:65534 /opt/sonarqube && chmod -R g+rwX /opt/sonarqube
-
 exec java -jar lib/sonar-application-$SONAR_VERSION.jar \
   -Dsonar.log.console=true \
   -Dsonar.jdbc.username="$SONARQUBE_JDBC_USERNAME" \
@@ -62,4 +60,5 @@ exec java -jar lib/sonar-application-$SONAR_VERSION.jar \
   -Dsonar.buildbreaker.queryInterval=$SONARQUBE_BUILDBREAKER_INTERVAL \
   -Dsonar.buildbreaker.preview.issuesSeverity=$SONARQUBE_BUILDBREAKER_THRESHOLD \
   -Dsonar.web.javaAdditionalOpts="$SONARQUBE_WEB_JVM_OPTS -Djava.security.egd=file:/dev/./urandom" \
+  ${SONARQUBE_WEB_JVM_OPTS} \
   "$@"
